@@ -10,3 +10,5 @@ client/include/README
 client/test/README
 
 client/lib/README
+
+client/\.pioenvs/
