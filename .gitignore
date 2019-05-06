@@ -1,0 +1,12 @@
+
+client/\.vscode/
+
+client/\.travis\.yml
+
+client/platformio\.ini
+
+client/include/README
+
+client/test/README
+
+client/lib/README
