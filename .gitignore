@@ -1,0 +1,6 @@
+
+client/\.vscode/
+
+client/\.travis\.yml
+
+client/platformio\.ini
