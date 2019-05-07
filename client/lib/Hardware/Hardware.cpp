@@ -56,7 +56,7 @@ bool Hardware::calibrate_BLACK() {
       if (colorSensor.G<colorSensor.G_min) {
         colorSensor.G_min = colorSensor.G;
       }
-      if (colorSensor.B<colorSensor.B) {
+      if (colorSensor.B<colorSensor.B_min) {
         colorSensor.B_min = colorSensor.B;
       }
       delay(ITER_DELAY);
@@ -81,7 +81,7 @@ bool Hardware::calibrate_WHITE() {
       if (colorSensor.G>colorSensor.G_max) {
         colorSensor.G_max = colorSensor.G;
       }
-      if (colorSensor.B>colorSensor.B) {
+      if (colorSensor.B>colorSensor.B_max) {
         colorSensor.B_max = colorSensor.B;
       }
       delay(ITER_DELAY);

@@ -40,8 +40,8 @@ void setup() {
   hardware.begin(S0,S1,S2,S3,Out,capturePushButton,calibratePushButton_BLACK,calibratePushButton_WHITE);
 
   manager.addListener(new HardwareListener(capturePushButton,(Action)onCapture_Event));
-  // manager.addListener(new HardwareListener(calibratePushButton_BLACK,(Action)onCalibrate_BLACK_Event));
-  // manager.addListener(new HardwareListener(calibratePushButton_WHITE,(Action)onCalibrate_WHITE_Event));
+  manager.addListener(new HardwareListener(calibratePushButton_BLACK,(Action)onCalibrate_BLACK_Event));
+  manager.addListener(new HardwareListener(calibratePushButton_WHITE,(Action)onCalibrate_WHITE_Event));
 }
 
 loop(manager);
