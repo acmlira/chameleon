@@ -6,10 +6,10 @@
 #define S1 34
 #define S2 18
 #define S3 5
-#define Out 19
-#define capturePushButton 32
-#define calibratePushButton_BLACK 33
-#define calibratePushButton_WHITE 25
+#define OUT 19
+#define CAPTURE_PUSH_BUTTON 32
+#define BLACK_CALIBRATE_PUSH_BUTTON 33
+#define WHITE_CALIBRATE_PUSH_BUTTON 25
 
 #define baudrate 115200
 
@@ -17,31 +17,31 @@ Hardware hardware;
 Monitor monitor;
 EventManager manager;
 
-bool onCapture_Event(){
+bool onCaptureEvent(){
   hardware.capture();
   monitor.print(CAPTURE_MSG_BEGIN + hardware.RGB() + CAPTURE_MSG_FINISH);
   return true;
 }
 
-bool onCalibrate_BLACK_Event() {
-  hardware.calibrate_BLACK();
+bool onBlackCalibrateEvent() {
+  hardware.blackCalibrate();
   monitor.print(FINISH_CALIBRATION_BLACK);
   return true;
 }
 
-bool onCalibrate_WHITE_Event() {
-  hardware.calibrate_WHITE();
+bool onWhiteCalibrateEvent() {
+  hardware.whiteCalibrate();
   monitor.print(FINISH_CALIBRATION_WHITE);
   return true;
 }
 
 void setup() {
   monitor.begin(baudrate);
-  hardware.begin(S0,S1,S2,S3,Out,capturePushButton,calibratePushButton_BLACK,calibratePushButton_WHITE);
+  hardware.begin(S0,S1,S2,S3,OUT,CAPTURE_PUSH_BUTTON,BLACK_CALIBRATE_PUSH_BUTTON,WHITE_CALIBRATE_PUSH_BUTTON);
 
-  manager.addListener(new HardwareListener(capturePushButton,(Action)onCapture_Event));
-  manager.addListener(new HardwareListener(calibratePushButton_BLACK,(Action)onCalibrate_BLACK_Event));
-  manager.addListener(new HardwareListener(calibratePushButton_WHITE,(Action)onCalibrate_WHITE_Event));
+  manager.addListener(new HardwareListener(CAPTURE_PUSH_BUTTON,(Action)onCaptureEvent));
+  manager.addListener(new HardwareListener(BLACK_CALIBRATE_PUSH_BUTTON,(Action)onBlackCalibrateEvent));
+  manager.addListener(new HardwareListener(WHITE_CALIBRATE_PUSH_BUTTON,(Action)onWhiteCalibrateEvent));
 }
 
 loop(manager);

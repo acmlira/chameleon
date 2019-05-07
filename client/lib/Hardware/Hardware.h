@@ -9,17 +9,14 @@
 class Hardware {
 private:
   ColorSensor colorSensor;
-  PushButton capturePushButton, calibratePushButton_BLACK, calibratePushButton_WHITE;
+  PushButton capturePushButton, blackCalibratePushButton, whiteCalibratePushButton;
 public:
   Hardware();
-  Hardware(int S0, int S1, int S2, int S3, int Out, int capturePushButton,int calibratePushButton_BLACK, int calibratePushButton_WHITE);
 
-  void begin();
-  void begin(int S0, int S1, int S2, int S3, int Out, int capturePushButton,int calibratePushButton_BLACK, int calibratePushButton_WHITE);
-
-  bool capture();
-  bool calibrate_BLACK();
-  bool calibrate_WHITE();
+  void begin(int S0, int S1, int S2, int S3, int Out, int capturePushButton,int blackCalibratePushButton, int whiteCalibratePushButton);
+  void capture();
+  void blackCalibrate();
+  void whiteCalibrate();
 
   String RGB();
 };
