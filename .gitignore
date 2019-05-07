@@ -12,3 +12,7 @@ client/test/README
 client/lib/README
 
 client/\.pioenvs/
+
+server/\.vscode/
+
+client/src/Config\.h

@@ -1,8 +1,6 @@
 #include "Monitor.h"
 
-Monitor::Monitor() {
-  
-}
+Monitor::Monitor() {}
 
 void Monitor::begin(int baudrate) {
   Serial.begin(baudrate);

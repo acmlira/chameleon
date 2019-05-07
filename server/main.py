@@ -6,6 +6,8 @@
 #   Description: The server routine script 
 #
 import pandas as pd
+import sklearn
+
 from socket import socket, AF_INET, SOCK_STREAM
 from sklearn.linear_model import LogisticRegression
 
@@ -60,7 +62,7 @@ while True:
         predictable_data = [[float(i) if '.' in i else int(i) for i in string.split(",")]]
         prediction = LR.predict(predictable_data)
         # Send the response to client
-        client.sendall(prediction.encode())   
+        client.sendall(str(prediction[0]).encode())   
     print("Closing connection")
     client.close()
 client.close()
