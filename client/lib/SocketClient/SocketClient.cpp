@@ -16,11 +16,10 @@ void SocketClient::request(uint16_t port, char* host, String RGB) {
 
   client.print(RGB);
 
-  if (client.connected())
-  {
+  if (client.connected()) {
     response = client.readStringUntil('\n');
-    Serial.println(response);
+    Serial.println("Response: "+ response);
   }
-  Serial.println("Disconnecting...");
+  Serial.println("Disconnecting...\n");
   client.stop();
 }

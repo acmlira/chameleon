@@ -44,25 +44,28 @@ socket.bind(('0.0.0.0', 8090))
 socket.listen(0)                 
  
 while True:
-    # To start receiving the actual connections, we need to call the accept method on our socket 
-    # object, this method returns a pair with a new socket object and the address of the client.
-    #  
-    # We can then use this new socket object to establish the communication with the connected 
-    # client.
-    client, addr = socket.accept()
-    while True:
-        # Basically recv get the data from the client, it's like a request. In Python 3.x.x return 
-        # byte type (b'xyzw')
-        content = client.recv(32)
-        if len(content) == 0:
-           break
-        # decode is used for reshape content as str
-        string = content.decode()
-        # Transform the data into happy data
-        predictable_data = [[float(i) if '.' in i else int(i) for i in string.split(",")]]
-        prediction = LR.predict(predictable_data)
-        # Send the response to client
-        client.sendall(str(prediction[0]).encode())   
-    print("Closing connection")
-    client.close()
+  # To start receiving the actual connections, we need to call the accept method on our socket 
+  # object, this method returns a pair with a new socket object and the address of the client.
+  #  
+  # We can then use this new socket object to establish the communication with the connected 
+  # client.
+  print("Waiting for connection...")
+  client, addr = socket.accept()
+  while True:
+    # Basically recv get the data from the client, it's like a request. In Python 3.x.x return 
+    # byte type (b'xyzw')
+    content = client.recv(32)
+    if len(content) == 0:
+      break
+    # decode is used for reshape content as str
+    string = content.decode()
+    print("Predictable data: " + string)
+    # Transform the data into happy data
+    predictable_data = [[int(i) for i in string.split(",")]]
+    # THE PREDICT
+    prediction = LR.predict(predictable_data)
+    # Send the response to client
+    client.sendall(str(prediction[0]).encode())   
+  print("Closing connection\n")
+  client.close()
 client.close()
