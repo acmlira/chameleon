@@ -41,7 +41,7 @@ That's a WIP activity diagram, it's a bit of *main* activity for each actor
 Can undergo more changes but:
 - [X] Foundation
 - [X] Python Server ready to release
-- [ ] ESP32 partially ready to release (Python Server)
+- [X] ESP32 partially ready to release (Python Server)
 - [ ] Web page and ESP32 fully ready to release
 - [ ] First Release
 
