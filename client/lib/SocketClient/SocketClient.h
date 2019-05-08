@@ -1,4 +1,5 @@
 #include "WiFi.h"
+#include "Serial.h"
 #include "Arduino.h"
 
 class SocketClient {
