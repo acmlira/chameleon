@@ -16,3 +16,5 @@ client/\.pioenvs/
 server/\.vscode/
 
 client/src/Config\.h
+
+chameleon\.code-workspace

@@ -13,5 +13,5 @@ public:
   Monitor();
 
   void begin(int baudrate);
-  void print(String string);
+  void print(const String &string);
 };

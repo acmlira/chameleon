@@ -7,6 +7,6 @@ void Monitor::begin(int baudrate) {
   delay(BEGIN_DELAY);
 }
 
-void Monitor::print(String string) {
+void Monitor::print(const String &string) {
   Serial.println(string);
 }
