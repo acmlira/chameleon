@@ -13,14 +13,14 @@
 
 Hardware hardware;
 EventManager manager;
-SocketClient socket;
+SocketClient socketClient;
 
 AsyncWebServer webserver(80);
 
 bool onCaptureEvent(){
   hardware.capture();
-  socket.request(PORT, HOST, hardware.RGB());
-  Serial.print(SERIAL_CAPTURE_BEGIN + hardware.RGB() + SERIAL_CAPTURE_FINISH);
+  socketClient.request(PORT, HOST, hardware.RGB());
+  Serial.print(SERIAL_CAPTURE + hardware.RGB() + SERIAL_ENTER);
   return true;
 }
 
@@ -36,9 +36,11 @@ bool onWhiteCalibrateEvent() {
   return true;
 }
 
-String processor(const String& var) {
-  if(var == PLACEHOLDER){
-    return hardware.RGB();
+String update(const String& var) {
+  if(var == PLACEHOLDER_RGB){
+    return "rgb(" + hardware.RGB() + ")";
+  } else if (var == PLACEHOLDER_COLOR_SPECTRUM) {
+    return socketClient.response;
   }
   return WAITING;
 }
@@ -48,7 +50,7 @@ void setup() {
   
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED)delay(WIFI_DELAY);
-  Serial.print(SERIAL_MY_IP + WiFi.localIP());
+  Serial.print(WiFi.localIP());
 
   hardware.begin(S0,S1,S2,S3,OUT,CAPTURE_PUSH_BUTTON,BLACK_CALIBRATE_PUSH_BUTTON,WHITE_CALIBRATE_PUSH_BUTTON);
   manager.addListener(new HardwareListener(CAPTURE_PUSH_BUTTON,(Action)onCaptureEvent));
@@ -57,7 +59,10 @@ void setup() {
   
   if(!SPIFFS.begin())return; 
   webserver.on(ROUTE, HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, HTML_FILE, HTML_TYPE, false, processor);
+    request->send(SPIFFS, HTML_FILE, HTML_TYPE, false, update);
+  });
+  webserver.on("/src/normalize.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/src/normalize.css", "text/css");
   });
   webserver.begin();
 }

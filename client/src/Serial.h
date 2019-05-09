@@ -1,6 +1,5 @@
 #define SERIAL_MY_IP "My IP is "
-#define SERIAL_CAPTURE_BEGIN "Captured: RGB("
-#define SERIAL_CAPTURE_FINISH ")\n"
+#define SERIAL_CAPTURE "Captured: "
 #define SERIAL_CALIBRATION_BLACK "Black calibrated\n"
 #define SERIAL_CALIBRATION_WHITE "White calibrated\n"
 #define SERIAL_CONNECTED "Connected with IP: "

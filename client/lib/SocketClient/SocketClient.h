@@ -1,5 +1,5 @@
 #include "WiFi.h"
-#include "Serial.h"
+#include "/home/acmlira/Documents/Code/chameleon/client/src/Serial.h"
 #include "Arduino.h"
 
 class SocketClient {
