@@ -11,18 +11,18 @@
 <body style="background-color:%PLACEHOLDER_RGB%">
   <div class="card-container">
     <div class="card">
-      <div class="title">
-        <nav>
+      <div class="title-container">
+        <nav class="header-container">
           <ul class="header">
             <li class="header-item header-image">
-              <a class="" href="#">
+              <a>
                 <img src="src/chameleon.png"width="50" height="50">
               </a>
             </li>
             <li class="header-item header-title">
-              <p>it looks</p>
-              <p style="color:%PLACEHOLDER_RGB%">%PLACEHOLDER_COLOR_SPECTRUM%</p>
-              <p>to me!</p>
+              <p id="random-message">it looks</p>
+              <p class="color-name" style="color:%PLACEHOLDER_RGB%">%PLACEHOLDER_COLOR_SPECTRUM%</p>
+              <p class="tap">tap to copy</p>
             </li>
           </ul>
         </nav>
@@ -30,17 +30,19 @@
       <div class="copy-container" id="js-copy-container">
         <nav>
           <ul>
-            <li class="copy button" style="text-align: center;border-color: %PLACEHOLDER_RGB%">
-              <a class="placeholder">%PLACEHOLDER_RGB%</a>
+            <li class="first button" style="border-color: %PLACEHOLDER_RGB%">
+              <p class="copy">%PLACEHOLDER_RGB%</p>
             </li>
-            <li class="copy button" style="border-color: %PLACEHOLDER_RGB%">
-              <a class="placeholder">%PLACEHOLDER_HEX%</a>
+            <li class="button" style="border-color: %PLACEHOLDER_RGB%">
+              <p class="copy">%PLACEHOLDER_HEX%</p>
             </li>
           </ul>
         </nav>
       </div>
-      <div id="refresh" class="refresh hide">
-        <p>Ready to refresh</p>
+      <div class="refresh-container hide" id="refresh" >
+        <div class="refresh">
+          <p>Ready to refresh</p>
+        </div>
       </div>
     </div>
   </div>
