@@ -19,8 +19,8 @@ AsyncWebServer webserver(80);
 
 bool onCaptureEvent(){
   hardware.capture();
-  socketClient.request(PORT, HOST, hardware.RGB());
   Serial.print(SERIAL_CAPTURE + hardware.RGB() + SERIAL_ENTER);
+  socketClient.request(PORT, HOST, hardware.RGB());
   return true;
 }
 
@@ -36,11 +36,13 @@ bool onWhiteCalibrateEvent() {
   return true;
 }
 
-String update(const String& var) {
-  if(var == PLACEHOLDER_RGB){
-    return "rgb(" + hardware.RGB() + ")";
-  } else if (var == PLACEHOLDER_COLOR_SPECTRUM) {
-    return socketClient.response;
+String process(const String& var) {
+  if(var == PLACEHOLDER_COLOR_SPECTRUM){
+    return socketClient.response_color_spectrum;
+  } else if (var == PLACEHOLDER_RGB) {
+    return socketClient.response_rgb;
+  } else if (var == PLACEHOLDER_HEX) {
+    return socketClient.response_hex;
   }
   return WAITING;
 }
@@ -50,7 +52,9 @@ void setup() {
   
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.status() != WL_CONNECTED)delay(WIFI_DELAY);
+  Serial.print(SERIAL_MY_IP);
   Serial.print(WiFi.localIP());
+  Serial.print(SERIAL_ENTER);
 
   hardware.begin(S0,S1,S2,S3,OUT,CAPTURE_PUSH_BUTTON,BLACK_CALIBRATE_PUSH_BUTTON,WHITE_CALIBRATE_PUSH_BUTTON);
   manager.addListener(new HardwareListener(CAPTURE_PUSH_BUTTON,(Action)onCaptureEvent));
@@ -58,8 +62,8 @@ void setup() {
   manager.addListener(new HardwareListener(WHITE_CALIBRATE_PUSH_BUTTON,(Action)onWhiteCalibrateEvent));
   
   if(!SPIFFS.begin())return; 
-  webserver.on(ROUTE, HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, HTML_FILE, HTML_TYPE, false, update);
+  webserver.on("/index", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/index.html", "text/html", false, process);
   });
   webserver.on("/src/reset.css", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/src/reset.css", "text/css");
@@ -72,9 +76,6 @@ void setup() {
   });
   webserver.on("/src/chameleon.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/src/chameleon.png", "image/png");
-  });
-  webserver.on("/src/refresh.png", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/src/refresh.png", "image/png");
   });
   webserver.begin();
 }

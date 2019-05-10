@@ -12,8 +12,8 @@ from socket import socket, AF_INET, SOCK_STREAM
 from sklearn.linear_model import LogisticRegression
 
 # Import train and test data
-train = pd.read_csv('/home/acmlira/Documents/Code/chameleon/server/data/colors.csv', sep=',',header=0)  
-test = pd.read_csv('/home/acmlira/Documents/Code/chameleon/server/data/colors.csv', sep=',',header=0)
+train = pd.read_csv('data/colors.csv', sep=',',header=0)  
+test = pd.read_csv('data/colors.csv', sep=',',header=0)
 
 # Make train set 
 y_train = train.iloc[:, 5]  
@@ -28,9 +28,27 @@ LR = LogisticRegression(random_state=0, solver='lbfgs', multi_class='multinomial
 LR.predict(X_test)
 print(round(LR.score(X_test,y_test), 4))
 
-#   
-# UNDERSTANDING COMMUNICATION BY SOCKETS   
-#
+def adjust(rgb):
+  if rgb[0][0] < 0 or rgb[0][1] < 0 or rgb[0][2] < 0:
+    most_negative = rgb[0][0]
+    if rgb[0][1] < most_negative:
+      most_negative = rgb[0][1]
+    if rgb[0][2] < most_negative:
+      most_negative = rgb[0][2] 
+    
+    rgb[0][0] = rgb[0][0] - most_negative
+    rgb[0][1] = rgb[0][1] - most_negative
+    rgb[0][2] = rgb[0][2] - most_negative
+  return [[rgb[0][0],rgb[0][1],rgb[0][2]]]
+
+def to_hex(rgb):
+  return str(hex(rgb[0][0])[2:] + hex(rgb[0][1])[2:] + hex(rgb[0][2])[2:])
+
+# # # # # # # # # # # # # # # # # # # # # #
+#                                         #
+# UNDERSTANDING COMMUNICATION BY SOCKETS  # 
+#                                         #
+# # # # # # # # # # # # # # # # # # # # # #
 
 # Create the TCP socket server
 socket = socket(AF_INET,SOCK_STREAM)
@@ -61,11 +79,14 @@ while True:
     string = content.decode()
     print("Predictable data: " + string)
     # Transform the data into happy data
-    predictable_data = [[int(i) for i in string.split(",")]]
+    rgb = adjust([[int(i) for i in string.split(",")]])
+    hex_of_rgb = to_hex(rgb)
     # THE PREDICT
-    prediction = LR.predict(predictable_data)
+    color_spectrum = LR.predict(rgb)
     # Send the response to client
-    client.sendall(str(prediction[0]).encode())   
+    client.sendall((str(color_spectrum[0])+"\n").encode())
+    client.sendall(("rgb("+ str(rgb[0][0])+","+str(rgb[0][1])+","+str(rgb[0][2])+")\n").encode())
+    client.sendall(("#" + str(hex_of_rgb)+"\n").encode())
   print("Closing connection\n")
   client.close()
 client.close()

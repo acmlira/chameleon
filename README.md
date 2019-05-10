@@ -35,15 +35,15 @@ Clearly, in the communication process we have 3 internal actors:
 ### Activity Diagram 
 That's a WIP activity diagram, it's a bit of *main* activity for each actor
 
-[![alt text](https://i.imgur.com/R22acvu.jpg)
+![alt text](https://i.imgur.com/R22acvu.jpg)
 
 # Goals, to do (WIP)
 Can undergo more changes but:
 - [X] Foundation
 - [X] Python Server ready to release
 - [X] ESP32 partially ready to release (Python Server)
-- [ ] Web page and ESP32 fully ready to release
-- [ ] First Release
+- [X] Web page and ESP32 fully ready to release
+- [X] First Release
 
 # Like a boilerplate
 You may have noticed that my files have specific characteristics, and they are:

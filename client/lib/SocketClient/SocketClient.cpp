@@ -6,20 +6,22 @@ void SocketClient::request(uint16_t port, char* host, String RGB) {
   WiFiClient client;
 
   if (!client.connect(host, port)) {
-    Serial.print(SERIAL_CONNECTION_FAILED);
+    Serial.print("Connection to host failed\n");
 
     delay(1000);
     return;
   }
 
-  Serial.print(SERIAL_CONNECTION_SUCCEED);
+  Serial.print("Connection established\n");
 
   client.print(RGB);
 
   if (client.connected()) {
-    response = client.readStringUntil('\n');
-    Serial.print(SERIAL_RESPONSE + response + SERIAL_ENTER);
+    response_color_spectrum = client.readStringUntil('\n');
+    response_rgb = client.readStringUntil('\n');
+    response_hex = client.readStringUntil('\n');
+    Serial.print("Response (received):\n| - Color spectrum: " + response_color_spectrum + "\n" + "| - " + response_rgb + "\n| - " + response_hex + "\n");
   }
-  Serial.print(SERIAL_DISCONNECTED);
+  Serial.print("Disconnecting...\n");
   client.stop();
 }

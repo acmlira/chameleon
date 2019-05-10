@@ -1,5 +1,4 @@
 #include "WiFi.h"
-#include "/home/acmlira/Documents/Code/chameleon/client/src/Serial.h"
 #include "Arduino.h"
 
 class SocketClient {
@@ -8,5 +7,7 @@ public:
   
   void request(uint16_t port, char* host, String RGB);
 
-  String response;
+  String response_rgb;
+  String response_color_spectrum;
+  String response_hex;
 };
