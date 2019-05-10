@@ -5,6 +5,18 @@ setTimeout(function() {
   document.getElementById("refresh").classList.remove('hide')
 },5000);
 
+var myArray = [
+  "A wonderful",
+  "Beautiful tone of",
+  "A majestic",
+  "A classic tone of",
+  "It's a very nice"
+];
+
+var randomItem = myArray[Math.floor(Math.random()*myArray.length)];
+
+document.getElementById('random-message').innerHTML = randomItem;
+
 styleSheetWrapperEl.addEventListener('click', function (e) {
   if (e.target.className !== 'copy') return;
   var element = e.target;
