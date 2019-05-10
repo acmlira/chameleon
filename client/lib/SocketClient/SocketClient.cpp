@@ -6,20 +6,20 @@ void SocketClient::request(uint16_t port, char* host, String RGB) {
   WiFiClient client;
 
   if (!client.connect(host, port)) {
-    Serial.println("Connection to host failed");
+    Serial.print(SERIAL_CONNECTION_FAILED);
 
     delay(1000);
     return;
   }
 
-  Serial.println("Connected to server successful!");
+  Serial.print(SERIAL_CONNECTION_SUCCEED);
 
   client.print(RGB);
 
   if (client.connected()) {
     response = client.readStringUntil('\n');
-    Serial.println("Response: "+ response);
+    Serial.print(SERIAL_RESPONSE + response + SERIAL_ENTER);
   }
-  Serial.println("Disconnecting...\n");
+  Serial.print(SERIAL_DISCONNECTED);
   client.stop();
 }

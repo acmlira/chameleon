@@ -1,1 +1,49 @@
-<p>Sensor measurement: %PLACEHOLDER%</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="src/reset.css">
+  <link rel="stylesheet" type="text/css" href="src/style.css">
+  <title>Chameleon</title>
+</head>
+<body style="background-color:%PLACEHOLDER_RGB%">
+  <div class="card-container">
+    <div class="card">
+      <div class="title">
+        <nav>
+          <ul class="header">
+            <li class="header-item header-image">
+              <a class="" href="#">
+                <img src="src/chameleon.png"width="50" height="50">
+              </a>
+            </li>
+            <li class="header-item header-title">
+              <p>it looks</p>
+              <p style="color:%PLACEHOLDER_RGB%">%PLACEHOLDER_COLOR_SPECTRUM%</p>
+              <p>to me!</p>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="copy-container" id="js-copy-container">
+        <nav>
+          <ul>
+            <li class="copy button" style="text-align: center;border-color: %PLACEHOLDER_RGB%">
+              <a class="placeholder">%PLACEHOLDER_RGB%</a>
+            </li>
+            <li class="copy button" style="border-color: %PLACEHOLDER_RGB%">
+              <a class="placeholder">%PLACEHOLDER_HEX%</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div id="refresh" class="refresh hide">
+        <p>Ready to refresh</p>
+      </div>
+    </div>
+  </div>
+</body>
+<script type = "text/javascript" src = "src/script.js" ></script>
+</html>
