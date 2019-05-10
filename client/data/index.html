@@ -4,54 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  
-  <link rel="stylesheet" type="text/css" href="src/normalize.css">
+  <link rel="stylesheet" type="text/css" href="src/reset.css">
+  <link rel="stylesheet" type="text/css" href="src/style.css">
   <title>Chameleon</title>
-  
-  <style>
-    html, body {
-      height: 100%;
-      font-family: Arial, helvetica, sans-serif;
-      line-height: 1.4;
-    }
-    .card-container {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card {
-      background: #fff;
-      border-radius: 2px;
-      width: 20em;
-      height: 20em;
-      box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-      text-align: center;
-    }
-  </style>
-  
 </head>
 <body style="background-color:%PLACEHOLDER_RGB%">
   <div class="card-container">
     <div class="card">
-      <h1 class="phone">Color spectrum: %PLACEHOLDER_COLOR_SPECTRUM%</h1>
-      <p class = "click" data-clipboard-text="👽👩‍💻✌️">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+      <div class="title">
+        <nav>
+          <ul class="header">
+            <li class="header-item header-image">
+              <a class="" href="#">
+                <img src="src/chameleon.png"width="50" height="50">
+              </a>
+            </li>
+            <li class="header-item header-title">
+              <p>it looks</p>
+              <p style="color:%PLACEHOLDER_RGB%">%PLACEHOLDER_COLOR_SPECTRUM%</p>
+              <p>to me!</p>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="copy-container" id="js-copy-container">
+        <nav>
+          <ul>
+            <li class="copy button" style="text-align: center;border-color: %PLACEHOLDER_RGB%">
+              <a class="placeholder">%PLACEHOLDER_RGB%</a>
+            </li>
+            <li class="copy button" style="border-color: %PLACEHOLDER_RGB%">
+              <a class="placeholder">%PLACEHOLDER_HEX%</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div id="refresh" class="refresh hide">
+        <p>Ready to refresh</p>
+      </div>
     </div>
   </div>
-  <script>
-    $('.click').on('click', function() {
-      // finds data-clipboard-test for content p class "click" 
-      value = $(this).data('clipboard-text'); 
-      // Temporary input tag to store text
-      var $temp = $("<input>");
-      $("body").append($temp);
-      // Selects text value
-      $temp.val(value).select();
-      // Copies text, removes temporary tag
-      document.execCommand("copy");
-      $temp.remove();
-      
-    })
-  </script>
 </body>
+<script type = "text/javascript" src = "src/script.js" ></script>
 </html>

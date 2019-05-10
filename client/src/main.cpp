@@ -61,8 +61,20 @@ void setup() {
   webserver.on(ROUTE, HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, HTML_FILE, HTML_TYPE, false, update);
   });
-  webserver.on("/src/normalize.css", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/src/normalize.css", "text/css");
+  webserver.on("/src/reset.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/src/reset.css", "text/css");
+  });
+  webserver.on("/src/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/src/style.css", "text/css");
+  });
+  webserver.on("/src/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/src/script.js", "text/javascript");
+  });
+  webserver.on("/src/chameleon.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/src/chameleon.png", "image/png");
+  });
+  webserver.on("/src/refresh.png", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/src/refresh.png", "image/png");
   });
   webserver.begin();
 }
