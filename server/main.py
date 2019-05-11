@@ -12,8 +12,8 @@ from socket import socket, AF_INET, SOCK_STREAM
 from sklearn.linear_model import LogisticRegression
 
 # Import train and test data
-train = pd.read_csv('data/colors.csv', sep=',',header=0)  
-test = pd.read_csv('data/colors.csv', sep=',',header=0)
+train = pd.read_csv('/home/acmlira/Documents/Code/chameleon/server/data/colors.csv', sep=',',header=0)  
+test = pd.read_csv('/home/acmlira/Documents/Code/chameleon/server/data/colors.csv', sep=',',header=0)
 
 # Make train set 
 y_train = train.iloc[:, 5]  

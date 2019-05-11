@@ -5,8 +5,8 @@ Manager::Manager() {
   contextStack[contextOffset].setupContext();
 }
 
-void Manager::addListener(Listener *lstn) {
-  contextStack[contextOffset].addListener(lstn);
+void Manager::on(Listener *lstn) {
+  contextStack[contextOffset].on(lstn);
 }
 
 void Manager::removeListener(Listener *lstn) {
@@ -69,7 +69,7 @@ void Context::setupContext() {
   listenerCount = 0;
 }
   
-void Context::addListener(Listener *lstn) {
+void Context::on(Listener *lstn) {
   for(int i = 0; i < listenerCount; i++) {
     if(listeners[listenerCount] == 0) { 
       listeners[listenerCount] = lstn;
@@ -103,33 +103,33 @@ bool Listener::performTriggerAction(Context *ctx) {
   return (*triggerAction)(this, ctx);
 }
 
-HardwareListener::HardwareListener() {
+Event::Event() {
   
 }
 
-HardwareListener::HardwareListener(int pin, int debounce, bool targetValue, Action action) {
+Event::Event(int pin, int debounce, bool targetValue, Action action) {
   this->pin = pin;
   this->debounce = debounce;
   this->targetValue = targetValue;
   this->triggerAction = action;
 }
 
-HardwareListener::HardwareListener(int pin, int debounce, Action action) {
+Event::Event(int pin, int debounce, Action action) {
   this->pin = pin;
   this->debounce = debounce;
   this->triggerAction = action;
 }
 
-HardwareListener::HardwareListener(int pin, Action action) {
+Event::Event(int pin, Action action) {
   this->pin = pin;
   this->triggerAction = action;
 }
 
-void HardwareListener::setupListener() {
+void Event::setupListener() {
   startState = digitalRead(pin);
 }
 
-bool HardwareListener::isEventTriggered() {
+bool Event::isEventTriggered() {
   bool val = digitalRead(pin); 
 
   if(firstNoticed) {

@@ -4,10 +4,8 @@
 class Socket {
 public:
   Socket();
-  
-  void request(uint16_t port, char* host, String RGB);
-
   String response_rgb;
   String response_color_spectrum;
   String response_hex;
+  bool request(uint16_t port, char* host, String rgb);
 };

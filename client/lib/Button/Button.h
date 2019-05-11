@@ -1,11 +1,11 @@
 #include "Arduino.h"
 
-class PushButton {
+class Button {
 private:
   int pin;
 public:
-  PushButton();
-  PushButton(int pin);
+  Button();
+  Button(int pin);
 
   void begin();
 

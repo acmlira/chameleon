@@ -1,8 +1,0 @@
-#define S0 35
-#define S1 34
-#define S2 18
-#define S3 5
-#define OUT 19
-#define CAPTURE_PUSH_BUTTON 32
-#define BLACK_CALIBRATE_PUSH_BUTTON 33
-#define WHITE_CALIBRATE_PUSH_BUTTON 25

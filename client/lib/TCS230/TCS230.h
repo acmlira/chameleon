@@ -3,12 +3,12 @@
 #define MIN 0
 #define MAX 255
 
-class ColorSensor {
+class TCS230 {
 private:
   int S0, S1, S2, S3, Out;
 public:
-  ColorSensor();
-  ColorSensor(int S0, int S1, int S2, int S3, int Out);
+  TCS230();
+  TCS230(int S0, int S1, int S2, int S3, int Out);
 
   int R, R_max, R_min; 
   int G, G_max, G_min;
@@ -17,5 +17,5 @@ public:
   void begin();
   void read();
 
-  String RGB();
+  String rgb();
 };

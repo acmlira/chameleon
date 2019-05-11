@@ -2,39 +2,32 @@
 #include "ESPAsyncWebServer.h"
 #include "Manager.h"
 #include "Socket.h"
+#include "Serial.h"
 
 #include "SPIFFS.h"
 #include "WiFi.h"
-
 #include "Config.h"
-#include "Constants.h"
-#include "Pins.h"
-#include "Serial.h"
+
+#define BAUDRATE 115200
+#define PLACEHOLDER_COLOR_SPECTRUM "PLACEHOLDER_COLOR_SPECTRUM"
+#define PLACEHOLDER_RGB "PLACEHOLDER_RGB"
+#define PLACEHOLDER_HEX "PLACEHOLDER_HEX"
+#define WAITING "Waiting for response..."
+
+#define S0 35
+#define S1 34
+#define S2 18
+#define S3 5
+#define OUT 19
+#define CAPTURE_BUTTON 32
+#define BLACK_CALIBRATE_BUTTON 33
+#define WHITE_CALIBRATE_BUTTON 25
 
 Hardware hardware;
 Manager manager;
 Socket socket;
 
-AsyncWebServer webserver(80);
-
-bool onCaptureEvent(){
-  hardware.capture();
-  Serial.print(SERIAL_CAPTURE + hardware.RGB() + SERIAL_ENTER);
-  socket.request(PORT, HOST, hardware.RGB());
-  return true;
-}
-
-bool onBlackCalibrateEvent() {
-  hardware.blackCalibrate();
-  Serial.print(SERIAL_CALIBRATION_BLACK);
-  return true;
-}
-
-bool onWhiteCalibrateEvent() {
-  hardware.whiteCalibrate();
-  Serial.print(SERIAL_CALIBRATION_WHITE);
-  return true;
-}
+AsyncWebServer server(80);
 
 String processor(const String& var) {
   if(var == PLACEHOLDER_COLOR_SPECTRUM){
@@ -47,37 +40,47 @@ String processor(const String& var) {
   return WAITING;
 }
 
+bool onCapture() {
+  return socket.request(PORT, HOST, hardware.capture());
+}
+
+bool onBlackCalibrate() {
+  return hardware.blackCalibrate();
+}
+
+bool onWhiteCalibrate() {
+  return hardware.whiteCalibrate();
+}
+
 void setup() {
   Serial.begin(BAUDRATE);
   
   WiFi.begin(SSID, PASSWORD);
-  while (WiFi.status() != WL_CONNECTED)delay(WIFI_DELAY);
-  Serial.print(SERIAL_MY_IP);
-  Serial.print(WiFi.localIP());
-  Serial.print(SERIAL_ENTER);
+  while (WiFi.status() != WL_CONNECTED) attempt(WiFi);
 
-  hardware.begin(S0,S1,S2,S3,OUT,CAPTURE_PUSH_BUTTON,BLACK_CALIBRATE_PUSH_BUTTON,WHITE_CALIBRATE_PUSH_BUTTON);
-  manager.addListener(new HardwareListener(CAPTURE_PUSH_BUTTON,(Action)onCaptureEvent));
-  manager.addListener(new HardwareListener(BLACK_CALIBRATE_PUSH_BUTTON,(Action)onBlackCalibrateEvent));
-  manager.addListener(new HardwareListener(WHITE_CALIBRATE_PUSH_BUTTON,(Action)onWhiteCalibrateEvent));
+  hardware.begin(S0,S1,S2,S3,OUT,CAPTURE_BUTTON,BLACK_CALIBRATE_BUTTON,WHITE_CALIBRATE_BUTTON);
+
+  manager.on(new Event(CAPTURE_BUTTON,(Action)onCapture));
+  manager.on(new Event(BLACK_CALIBRATE_BUTTON,(Action)onBlackCalibrate));
+  manager.on(new Event(WHITE_CALIBRATE_BUTTON,(Action)onWhiteCalibrate));
   
   if(!SPIFFS.begin())return; 
-  webserver.on("/index", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/index", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/index.html", "text/html", false, processor);
   });
-  webserver.on("/src/reset.css", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/src/reset.css", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/src/reset.css", "text/css");
   });
-  webserver.on("/src/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/src/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/src/style.css", "text/css");
   });
-  webserver.on("/src/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/src/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/src/script.js", "text/javascript");
   });
-  webserver.on("/src/chameleon.png", HTTP_GET, [](AsyncWebServerRequest *request){
+  server.on("/src/chameleon.png", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/src/chameleon.png", "image/png");
   });
-  webserver.begin();
+  server.begin();
 }
 
 loop(manager);

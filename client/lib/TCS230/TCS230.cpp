@@ -1,10 +1,10 @@
-#include "ColorSensor.h"
+#include "TCS230.h"
 
-ColorSensor::ColorSensor() {
+TCS230::TCS230() {
   
 }
 
-ColorSensor::ColorSensor(int S0, int S1, int S2, int S3, int Out) {
+TCS230::TCS230(int S0, int S1, int S2, int S3, int Out) {
   this->S0 = S0;
   this->S1 = S1;
   this->S2 = S2;
@@ -18,7 +18,7 @@ ColorSensor::ColorSensor(int S0, int S1, int S2, int S3, int Out) {
   this->B_min = MAX;
 }
 
-void ColorSensor::begin() {
+void TCS230::begin() {
   pinMode(S0, OUTPUT);
   pinMode(S1, OUTPUT);
   pinMode(S2, OUTPUT);
@@ -30,7 +30,7 @@ void ColorSensor::begin() {
   digitalWrite(S1,LOW);
 }
 
-void ColorSensor::read() {
+void TCS230::read() {
     // Setting RED (R) filtered photodiodes to be read
   digitalWrite(S2,LOW);
   digitalWrite(S3,LOW);
@@ -47,6 +47,6 @@ void ColorSensor::read() {
   B = pulseIn(Out, LOW);
 }
 
-String ColorSensor::RGB() {
+String TCS230::rgb() {
   return (String(map(R, R_min, R_max, MIN,MAX)) + "," + String(map(G, G_min, G_max,MIN,MAX)) + "," + String(map(B, B_min, B_max,MIN,MAX)));
 }

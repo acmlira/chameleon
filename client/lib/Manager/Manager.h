@@ -18,7 +18,7 @@ class Manager {
   Context *resetContext();
   Context *popContext();
   Context *currentContext();
-  void addListener(Listener *lstn);
+  void on(Listener *lstn);
   void removeListener(Listener *lstn);
 
   private:
@@ -34,7 +34,7 @@ class Context {
   Context();
   void setupContext();
   void loopIteration();
-  void addListener(Listener *lstn);
+  void on(Listener *lstn);
   void removeListener(Listener *lstn);
 
   private:
@@ -54,12 +54,13 @@ class Listener {
   protected:
 };
 
-class HardwareListener : public Listener {
+class Event : public Listener {
   public:
-  HardwareListener();
-  HardwareListener(int pin, Action trigger);
-  HardwareListener(int pin, int debounce, Action action);
-  HardwareListener(int pin, int debounce, bool targetValue, Action action);
+  Event();
+  Event(int pin, Action trigger);
+  Event(int pin, int debounce, Action action);
+  Event(int pin, int debounce, bool targetValue, Action action);
+  Event(int pin, int debounce, bool targetValue, Action&& action);
   int pin = 0;
   int debounce = 40;  
   bool targetValue = HIGH;
