@@ -1,8 +1,8 @@
-#include "SocketClient.h"
+#include "Socket.h"
 
-SocketClient::SocketClient() {}
+Socket::Socket() {}
 
-void SocketClient::request(uint16_t port, char* host, String RGB) {
+void Socket::request(uint16_t port, char* host, String RGB) {
   WiFiClient client;
 
   if (!client.connect(host, port)) {

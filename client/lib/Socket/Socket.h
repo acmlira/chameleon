@@ -1,9 +1,9 @@
 #include "WiFi.h"
 #include "Arduino.h"
 
-class SocketClient {
+class Socket {
 public:
-  SocketClient();
+  Socket();
   
   void request(uint16_t port, char* host, String RGB);
 

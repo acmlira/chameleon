@@ -1,7 +1,7 @@
 #include "Hardware.h"
 #include "ESPAsyncWebServer.h"
-#include "EventManager.h"
-#include "SocketClient.h"
+#include "Manager.h"
+#include "Socket.h"
 
 #include "SPIFFS.h"
 #include "WiFi.h"
@@ -12,15 +12,15 @@
 #include "Serial.h"
 
 Hardware hardware;
-EventManager manager;
-SocketClient socketClient;
+Manager manager;
+Socket socket;
 
 AsyncWebServer webserver(80);
 
 bool onCaptureEvent(){
   hardware.capture();
   Serial.print(SERIAL_CAPTURE + hardware.RGB() + SERIAL_ENTER);
-  socketClient.request(PORT, HOST, hardware.RGB());
+  socket.request(PORT, HOST, hardware.RGB());
   return true;
 }
 
@@ -36,13 +36,13 @@ bool onWhiteCalibrateEvent() {
   return true;
 }
 
-String process(const String& var) {
+String processor(const String& var) {
   if(var == PLACEHOLDER_COLOR_SPECTRUM){
-    return socketClient.response_color_spectrum;
+    return socket.response_color_spectrum;
   } else if (var == PLACEHOLDER_RGB) {
-    return socketClient.response_rgb;
+    return socket.response_rgb;
   } else if (var == PLACEHOLDER_HEX) {
-    return socketClient.response_hex;
+    return socket.response_hex;
   }
   return WAITING;
 }
@@ -63,7 +63,7 @@ void setup() {
   
   if(!SPIFFS.begin())return; 
   webserver.on("/index", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/index.html", "text/html", false, process);
+    request->send(SPIFFS, "/index.html", "text/html", false, processor);
   });
   webserver.on("/src/reset.css", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(SPIFFS, "/src/reset.css", "text/css");
